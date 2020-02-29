@@ -3,6 +3,7 @@
 /cypress/screenshots/
 /__sapper__/
 characters
+src/config/
 
 # Logs
 logs

@@ -4,9 +4,12 @@ import compression from 'compression';
 import * as sapper from '@sapper/server';
 import uuidv4 from 'uuid/v4';
 import helmet from 'helmet';
+import dotenv from 'dotenv';
 
-const { PORT, NODE_ENV } = process.env;
-const dev = NODE_ENV === 'development';
+dotenv.config({ path: './config/config.env' });
+
+const PORT = process.env.PORT || 3000;
+const dev = process.env.NODE_ENV === 'development';
 
 express()
 	.use((req, res, next) => {
