@@ -1,3 +1,5 @@
 # frostspire-svelte-sapper-bulma
 
-Frostspire website readme
+Node.js website for Frostspire using Express, Svelte with Sapper, and Bulma.
+
+https://frostspire.net
