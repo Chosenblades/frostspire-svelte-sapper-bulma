@@ -3,7 +3,6 @@ import { createEventDispatcher } from 'svelte';
 import { fade } from 'svelte/transition';
 import { skills } from '../../utility/skills';
 import { formatNumber } from '../../utility/utility';
-import { getRank } from '../../utility/queries';
 
 export let firstPlayer;
 export let secondPlayer;
@@ -43,9 +42,8 @@ function closeModal() {
                     {#each skills as skill, i}
                         <tr>
                             <td><img class="skillicon" src="img/skillicons/{skill}.png"></td>
-                            <!-- When rank is fixed, it should go here -->
                             {#if i == 0}
-                            <td>Broken</td>
+                            <td>{firstPlayer.overallRank}</td>
                             <td>{firstPlayer.totalLevel}</td>
                             <td>{formatNumber(firstPlayer.totalExperience)}</td>
                             {:else}
@@ -64,7 +62,7 @@ function closeModal() {
 
                             <td>{formatNumber(secondPlayer.totalExperience)}</td>
                             <td>{secondPlayer.totalLevel}</td>
-                            <td>Broken</td>
+                            <td>{secondPlayer.overallRank}</td>
 
                             {:else}
                             {#if firstPlayer.skills[i-1].xp > secondPlayer.skills[i-1].xp}

@@ -5916,7 +5916,7 @@ a.navbar-item,
 .navbar-link:not(.is-arrowless) {
   padding-right: 2.5em; }
   .navbar-link:not(.is-arrowless)::after {
-    border-color: #03a9f4;
+    border-color: white;
     margin-top: -0.375em;
     right: 1.125em; }
 
@@ -7206,11 +7206,19 @@ html {
 
 @media screen and (min-width: 1024px) {
   .navbar.is-spaced {
-    padding: 0 10rem; } }
+    padding: 0rem 10rem; } }
 
 @media screen and (min-width: 1216px) {
   .navbar.is-spaced {
-    padding: 0 20rem; } }
+    padding: 0rem 20rem; } }
+
+@media screen and (min-width: 1024px) {
+  .navbar.space-out {
+    padding: 0px 10rem; } }
+
+@media screen and (min-width: 1216px) {
+  .navbar.space-out {
+    padding: 0px 20rem; } }
 
 .navbar a.navbar-burger:hover {
   color: #FFFFFF; }

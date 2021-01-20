@@ -1,7 +1,7 @@
 <script>
 import { createEventDispatcher } from 'svelte';
-import {getHighscore, query} from '../../utility/queries';
 import { validateInput } from '../../utility/utility';
+import { fetchHandler } from '../../utility/fetchHandler';
 
 const dispatch = createEventDispatcher();
 let showFirstErrorMessage = false;
@@ -27,41 +27,25 @@ async function comparePlayers() {
         return;
     }
 
-    const res = await query(getHighscore(user1));
-    const response = await res.json();
-
-    if (res.status !== 200) {
-        console.log("fetch was not successful");
-        firstErrorMessage = "An error occurred.";
-        showFirstErrorMessage = true;
-        return;
-    }
+    const res = await fetchHandler(`http://localhost:5000/api/highscores/${user1}`);
     
-    if(response.data.getHighscore == null) {
-        firstErrorMessage = "User doesn't exist.";
+    if (res.success !== true) {
+        firstErrorMessage = res.error;
         showFirstErrorMessage = true;
         return;
     }
 
-    let firstPlayer = response.data.getHighscore;
+    let firstPlayer = res.data;
 
-    const res2 = await query(getHighscore(user2));
-    const response2 = await res2.json();
+    const res2 = await fetchHandler(`http://localhost:5000/api/highscores/${user2}`);
 
-    if (res2.status !== 200) {
-        console.log("fetch was not successful");
-        secondErrorMessage = "An error occurred.";
+    if (res2.success !== true) {
+        secondErrorMessage = res2.error;
         showSecondErrorMessage = true;
         return;
     }
 
-    if(response2.data.getHighscore == null) {
-        secondErrorMessage = "User doesn't exist.";
-        showSecondErrorMessage = true;
-        return;
-    }
-
-    let secondPlayer = response2.data.getHighscore;
+    let secondPlayer = res2.data;
 
 
     dispatch('comparePlayers', 

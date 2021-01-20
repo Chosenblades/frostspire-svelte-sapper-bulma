@@ -38,7 +38,7 @@ function closeModal() {
                             <td><img class="skillicon" src="img/skillicons/{skill}.png"></td>
                             <!-- Rank should go here when it's fixed -->
                             {#if i == 0}
-                            <td>Broken</td>
+                            <td>{currentPlayer.overallRank}</td>
                             <td>{currentPlayer.totalLevel}</td>
                             <td>{formatNumber(currentPlayer.totalExperience)}</td>
                             {:else}

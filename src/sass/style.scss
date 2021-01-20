@@ -27,6 +27,7 @@ $table-background-color: transparent;
 $navbar-item-color: $white;
 $navbar-item-hover-color: $white;
 $navbar-padding-vertical: 0;
+$navbar-dropdown-arrow: $white;
 //$navbar-padding-horizontal: 15rem;
 
 //Modal
@@ -77,13 +78,25 @@ html {
 
 @include desktop {
 	.navbar.is-spaced {
-		padding: 0 10rem;
+		padding: 0rem 10rem;
 	}
 }
 
 @include widescreen {
 	.navbar.is-spaced {
-		padding: 0 20rem;
+		padding: 0rem 20rem;
+	}
+}
+
+@include desktop {
+	.navbar.space-out {
+		padding: 0px 10rem;
+	}
+}
+
+@include widescreen {
+	.navbar.space-out {
+		padding: 0px 20rem;
 	}
 }
 

@@ -4,6 +4,9 @@
 
     let usernameVisible = true;
     let buttonsVisible = false;
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let date = new Date();
+    let month = months[date.getMonth()];
 
     function vote() {
         var username = document.getElementById('username').value;
@@ -66,7 +69,7 @@
                     <div class="columns has-text-centered">
                         <div class="column is-one-third">
                             <h4 class="has-text-primary">
-                                Votes for June
+                                Votes for {month}
                             </h4>
                             <h2 class="subtitle">
                                 69
@@ -74,7 +77,7 @@
                         </div>
                         <div class="column is-one-third is-offset-one-third">
                             <h4 class="has-text-primary">
-                                Top Voter for June
+                                Top Voter for {month}
                             </h4>
                             <h2 class="subtitle">
                                 Chosenblades

@@ -1,7 +1,7 @@
 <script>
     import { createEventDispatcher } from 'svelte';
-    import {getHighscore, query} from '../../utility/queries';
     import { validateInput } from '../../utility/utility';
+    import { fetchHandler } from '../../utility/fetchHandler';
 
     const dispatch = createEventDispatcher();
     let showErrorMessage = false;
@@ -18,25 +18,18 @@
             return;
         }
 
-        const res = await query(getHighscore(username));
-        const response = await res.json();
+        const res = await fetchHandler(`http://localhost:5000/api/highscores/${username}`);
 
-        if (res.status === 200) {
-            if(response.data.getHighscore == null) {
-                errorMessage = "User doesn't exist.";
-                showErrorMessage = true;
-                return;
-            }
-
-            let currentPlayer = response.data.getHighscore;
+        if (res.success !== true) {
+            errorMessage = res.error;
+            showErrorMessage = true;
+            return;
+        } else {
+            let currentPlayer = res.data;
             dispatch('searchPlayer', 
                 {
                     currentPlayer
                 });
-        } else {
-            console.log("fetch was not successful");
-            errorMessage = "An error occurred.";
-            showErrorMessage = true;
         }
     }
 </script>

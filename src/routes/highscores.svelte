@@ -1,32 +1,26 @@
 <script context="module">
+	export async function preload(page, session) {
 
-    import {getHighscores} from '../utility/queries';
-
-	export async function preload({ params, query }) {
-
-		const res = await this.fetch('/graphql', {
-                method: 'POST',
+		const res = await this.fetch('http://localhost:5000/api/highscores', {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                },
-                body: JSON.stringify({query: getHighscores("Overall")})
+                }
                 });
         const data = await res.json();
 
 		if (res.status === 200) {
-            const players = data.data.getHighscores;
+            const players = data.data;
 			return { players };
 		} else {
-            this.error(res.status, data.message);
+            this.error(res.status, data.error);
         }
-		this.error(404, 'Not found');
 	}
 </script>
 
 <script>
     import { fade, fly } from 'svelte/transition';
-    import {getHighscore, query} from '../utility/queries';
     import HighscoresTable from '../components/highscores/HighscoresTable.svelte';
     import HighscoresSearch from '../components/highscores/HighscoresSearch.svelte';
     import HighscoresCompare from '../components/highscores/HighscoresCompare.svelte';
@@ -48,6 +42,9 @@
 
     //What skill the main table is sorted by
     let currentSkill = "Overall";
+
+    //What page the maintable is showing up to
+    let page = 1;
 
     //Show modal containing data for searched/compared players
     let showSearchModal = false;
@@ -79,18 +76,17 @@
 
     //Sort main table by a specific skill
     async function searchSkill(skill) {
-        const res = await query(getHighscores(skill));
-        const response = await res.json();
+        const req = await fetch(`http://localhost:5000/api/highscores?skill=${skill}`);
+        const res = await req.json();
 
-        if (res.status === 200) {
-            if(response.data.getHighscores == null) {
-                console.log("User doesn't exist");
-                return;
-            }
-            const sortedPlayers = response.data.getHighscores;   
+        if (req.status === 200) {
+            const sortedPlayers = res.data;   
             players = sortedPlayers;
         } else {
-            console.log("fetch was not successful");
+            if(res.success == false) {
+                console.log(res.error);
+                return;
+            }
         }
         currentSkill = skill;
     }
@@ -111,7 +107,7 @@
 
             <div class="column is-three-fifths-desktop is-two-thirds-widescreen is-three-quarters-fullhd">
                 <!-- Highscores Table -->
-                <HighscoresTable on:clickedPlayer={(event) => clickPlayer(event.detail.username)} players={players} currentSkill={currentSkill}/>
+                <HighscoresTable on:clickedPlayer={(event) => clickPlayer(event.detail.username)} players={players} currentSkill={currentSkill} page={page}/>
             </div>
 
             <div class="column is-two-fifths-desktop is-one-third-widescreen is-one-quarter-fullhd">

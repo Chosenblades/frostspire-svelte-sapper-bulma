@@ -3,8 +3,10 @@ import { createEventDispatcher } from 'svelte';
 import { fade } from 'svelte/transition';
 import { skills } from '../../utility/skills';
 import { formatNumber } from '../../utility/utility.js';
+import { fetchHandler } from '../../utility/fetchHandler';
 
 export let players;
+export let page;
 export let amountToShow = 10;
 export let loadingTable = false;
 export let currentSkill = "Overall";
@@ -16,6 +18,21 @@ function clickPlayer(playerClicked) {
     dispatch('clickedPlayer', {
         username: playerClicked
     });
+}
+
+async function loadMorePlayers() {
+    page += 1;
+    const res = await fetchHandler(`http://localhost:5000/api/highscores?page=${page}`);
+
+    if(res.success !== true) {
+        console.log(res.error);
+    } else {
+        for(var i = 0; i < res.data.length; i++) {
+            players.push(res.data[i]);
+        }
+
+        amountToShow += 10;
+    }
 }
 </script>
 
@@ -65,6 +82,6 @@ function clickPlayer(playerClicked) {
                 </tbody>
             </table>
         </div>
-        <a class="button is-primary is-fullwidth" on:click={() => (amountToShow += 10)}>Show more</a>
+        <a class="button is-primary is-fullwidth" on:click={() => loadMorePlayers()}>Show more</a>
     </div>
 </article>

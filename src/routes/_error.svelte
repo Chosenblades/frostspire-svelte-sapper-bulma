@@ -3,6 +3,7 @@
 	export let error;
 
 	const dev = process.env.NODE_ENV === 'development';
+	console.log(error);
 </script>
 
 <style>
@@ -16,10 +17,10 @@
     <div class="column is-8 is-offset-2">
 		<article class="message is-primary">
 			<div class="message-header">
-				<p>{status}</p>
+				<p>Error</p>
 			</div>
 			<div class="message-body has-text-centered is-unselectable">
-				<p>{error.message}</p>
+				<p>An error has occured: {error.message}</p>
 
 				{#if dev && error.stack}
 					<pre>{error.stack}</pre>
